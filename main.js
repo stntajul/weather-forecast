@@ -1,31 +1,24 @@
-window.addEventListener('load',function(){
-    if(navigator.geolocation){
-        navigator.geolocation.getCurrentPosition(position=>{
-            const long =position.coords.longitude;
-            const lattitude=position.coords.lattitude;
-            fetch('http://api.weatherapi.com/v1/current.json?key=8128cff15a334620911194615212409&q=Dhaka&aqi=no')
-            .then(data=>data.json())
-            .then(data=>{
-                const {feelslike_c,feelslike_f,text}=data.current;
-                console.log(data);
 
-                document.getElementById('temp').innerText=feelslike_c + ' C';
-                document.getElementById('tempF').innerText=feelslike_f + ' F';
-
-
-            })
+document.getElementById('search').addEventListener('click',function(){
+    const cityInput=document.getElementById('cityInput').value;
+  
+        fetch('http://api.openweathermap.org/data/2.5/weather?q='+cityInput+'&appid=5e89cf6594877f12c9b8c42a57d66007')
+        .then(res=>res.json())
+        .then(data=>{
+            document.getElementById('cityName').innerText=data.name;
+            console.log(data);
+           
+            document.getElementById('temp').innerText= data.main.temp;
+            document.getElementById('description').innerText=data.weather[0].description;
             
 
-            
-        });
-        
+        })
 
-    }
-    else
-    {
-        alert('please accept your location access')
-    }
-})
+
+
+
+});
+
 function showTime(){
     let date=new Date();
     let hour=date.getHours();
